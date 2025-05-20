@@ -1,5 +1,5 @@
 import express from "express";
-import itemRoutes from "./routes/itemRoutes";
+import messageQueueRoutes from "./routes/message-queue.route";
 import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // register routes
-app.use("/api/items", itemRoutes);
+app.use("/api/mqueue", messageQueueRoutes);
 
 // global error handler (should be after routes)
 app.use(errorHandler);
