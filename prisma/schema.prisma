@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Agent {
+  id       Int        @id @default(autoincrement())
+  name     String
+  contact  String
+  Property Property[]
+}
+
+model Property {
+  id             Int          @id @default(autoincrement())
+  title          String
+  headline       String
+  description    String
+  location       String
+  price          Decimal
+  type           PropertyType
+  numOfBedrooms  Int
+  numOfBathrooms Int
+  area           Float
+  address        String
+  agent          Agent        @relation(fields: [agentId], references: [id])
+  agentId        Int
+  leadQueue      LeadQueue[]
+}
+
+model LeadQueue {
+  id         Int       @id @default(autoincrement())
+  name       String
+  contact    String
+  Property   Property? @relation(fields: [propertyId], references: [id])
+  propertyId Int?
+}
+
+model MessageQueue {
+  id            Int          @id @default(autoincrement())
+  first_name    String
+  last_name     String
+  mail_addr     String
+  phone         String
+  type          PropertyType
+  numOfBedrooms Int
+  address       String
+}
+
+enum PropertyType {
+  RENT
+  SELL
+  RENT_SELL
+}
